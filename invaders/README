@@ -1,0 +1,40 @@
+================================================================
+=  iiiii nn    n v       v aaaa  ddd   eeeee rrrr   ssss       =
+=    i   n n   n  v     v      a d  d  e     r   r s	       =
+=    i   n  n  n   v   v   aaaaa d   d eee   rrrr   ssss       =
+=    i   n   n n    v v    a   a d  d  e     r  r       s      =
+=  iiiii n    nn     v     aaaaa ddd   eeeee r   r  ssss       =
+================================================================
+
+################################################################
+Este codigo se distribuye bajo la licencia de GPL2( archivo de 
+licencia adjunto).
+################################################################
+
+Autor original:Kevin Harris
+
+Este juego ha sido modificado por Juanxo(Juan Guerrero) a partir
+de una modificacion realizada previamente por dvl, posteada en la 
+pagina:
+
+http://www.linuxjuegos.com/2005/09/18/programacion-de-juegos-en-python-tutorial-3/
+
+
+Autor: Juan Guerrero
+e-mail: juan_guerrero_11@hotmail.com
+web: www.loserjuegos.com.ar
+
+Descripción: se trata de una versión del clasico Space Invaders,
+simplificado y desarrollado integramente con python(2.6) y la 
+biblioteca gráfica pygame (ambos serán necesarios)
+
+Los controles son:
+
+   * Movimiento: la nave toma como posición la posicion del ratón
+   * Disparo: cada vez que pulsemos el botón izq. del ratón,
+	      aparecerán un laser a cada lado de la nave
+
+Espero que este ejemplo les sirva de ayuda y guía para desarrollar
+sus propios videojuegos
+
+Juan Guerrero

@@ -1,0 +1,9 @@
+from pylab import *
+
+figure()
+
+y= array([1,-1,2,1])
+
+plot(y)
+
+show()

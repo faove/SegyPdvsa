@@ -1,0 +1,10 @@
+#Archivo de configuración del sistema pdvsa.py
+#
+#NO EDITE ESTE ARCHIVO AUTOMATICAMENTE SE CREA
+#
+#
+-----------------===BITACORA===-----------------
+rutaGuardado..........................:/home/falvarez4
+nombredearchivobitacora...............:bitacora4.log
+modo..................................:w
+usuario...............................:falvarez

@@ -1,0 +1,436 @@
+CLASE grilla:
+
+PROPIEDADES de la clase grilla 
+{
+  ref_a_ImagenVinculada ... # Referencia a la imagen donde se va a superponer
+                            # la grilla.
+
+  lineas .................. # Lista de los objetos lineas verticales y
+                            # horizontales almacenados en la grilla.
+
+  DATOS DE NAVEGACION ..... # CDP, SP (shotpoint), coords. geográficas y UTM.
+    
+  # PARAMETROS DE PROYECCIÓN:
+  dxdp = []                 # Pixel por algo (DATOS DE NAVEGACION) en X.
+  dydp = []                 # Pixel por algo (DATOS DE NAVEGACION) en Y.
+  bx1  = []                 # Corte en X en funcion de los pixel por algo.
+  by1  = []                 # Corte en Y en funcion de los pixel por algo.
+
+  DATA .................... # Matriz con los datos leídos del archivo de grilla.
+
+} //FIN PROPIEDADES de la clase grilla
+
+METODOS de la clase grilla
+{
+  leer .................... # Lee los datos de una grilla almacenados en un
+                            # archivo texto.
+
+  guardar ................. # Guarda el objeto grilla en un archvo texto.
+
+  verificar ............... # Una vez leído el archivo de grilla, este método
+                            # hace verificaciones diversas sobre la
+                            # consistencia de la data. Por ejemplo, los únicos
+                            # números negativos distintos a -1 son valores de
+                            # coordenadas.
+  =============================================================================
+  editarDatos               # Edición de los valores de una línea usando una
+                            # una ventana de diálogo.
+  =============================================================================
+  seleccionar               # Incluye los id's python de los objetos líneas
+                            # seleccionados en una lista destinada a ello. El
+                            # usuario dispondrá de alternativas para indicar
+                            # su selección (seleccionar líneas por SP, UTMx, etc.
+
+  insertar ................ # Crear una línea.
+
+  copiar .................. # Crea otra línea con los mismos atributos gráficos
+                            # (longitud, color, inclinación, tipo, etc) que la
+                            # línea origen, pero con los atributos geográficos
+                            # establecidos a su valor inicial de -1.
+
+  pegar ................... # ¿Establece los valores geográficos de una línea
+                            # creada por copiar? ¿Hace esto llamando al método
+                            # editarDatos?
+
+  mover ................... # Mover la línea participándole a la grilla el cambio
+                            # de posición.
+
+  deshacer ................ # ¿Por lo menos el último cambio? ¿Y este último
+                            # debe almacenarse en algún atributo de clase?
+  =================================================================================
+  corregirDeriva
+  autoCompletar
+  =================================================================================
+  graficarGrillaVertical
+  graficarGrillarHorizontal
+
+  transfcoords ............ # Transforma las coordenadas de pixels a  CDPs, SPs,
+                            # coords. geográficas, UTM y tiempo. Se trata de
+                            # "proyectar" un punto ubicado en un sistema de
+                            # coordenadas bidimensional cuyos ejes miden las
+                            # longitudes en pixels, a otro(s) sistema(s) de
+                            # coordenadas donde por lo menos alguno de los dos
+                            # ejes representa otra variable (tiempo, posición
+                            #  geográfica, etc).
+ 
+  reiniciar ............... # No borra las objetos, pero pone todos los
+                            # parametros proporcionado por el usuario a -1.
+
+} //FIN METODOS de la clase grilla
+
+
+
+CLASE segnales:
+
+PROPIEDADES de la clase segnales
+{
+  IDsegnal ..................... # id "python" del objeto.
+ 
+  etiquetaSegnal ............... # Breve texto identificando la señal.
+                                 # Ej: "Canal 234 de la línea E202A".
+
+  dimension .................... # La dimensión del arreglo MUESTRAS: 1 en
+                                 # nuestro caso, 2 si es imagen, etc.
+                                 # Probablemente esta propiedad sea eliminada
+                                 # en la versión Python de esta clase, ya que
+                                 # si MUESTRAS es un arreglo creado con el paquete
+                                 # numpy, entonces este valor es MUESTRAS.ndim
+
+  EjeTemporal ............       # Entero positivo (1, 2, ... , n) que indica cual
+                                 # de los ejes del arreglo corresponde a la
+                                 # variable tiempo, si es el caso.
+
+  pertenezcoAGrupo ............. # Bandera booleana que indica la existencia de
+                                 # un grupo de señales al cual pertenece la señal.
+
+  indEnGrupo ................... # El número que identifica la señal dentro del
+                                 # grupo, si es el caso.
+
+  continuacionSegnalID ......... # Si la señal puede considerarse la continuación
+                                 # de otra, este atributo contiene el IDsegnal de
+                                 # esa otra señal.
+
+  MUESTRAS ..................... # El arreglo con los valores de la señal o
+                                 # muestras(la señal en sí).
+  =================================================================================
+  marcaSegnalFiltrada            # Bandera booleana que indica la señal es producto
+                                 # de un filtro aplicado sobre otra señal.
+
+  marcaValoresComplejos ........ # Bandera booleana que indica que entre las
+                                 # muestras hay valores complejos.
+
+  expresionMatematica .......... # Si los valores de la señal pueden considerarse
+                                 # como originados de la evaluación de una función
+                                 # cuya ley de asignación es combinación de
+                                 # expresiones algebraicas y/o funciones
+                                 # trascendentes, esta variable texto contiene la
+                                 # "fórmula" de la expresión.
+
+  marcaCalcParametros .......... # Bandera booleana que indica que al incorporar
+                                 # nuevas muestras, se deben actualizar los
+                                 # parámetros estadísticos: promedio, varianza,
+                                 # maximo, minimo.
+                                      
+  sumaMuestras ................. # Si la bandera marcaCalcParametros está True,
+                                 # esta variable (la suma de todas las muestras)
+                                 # también se actualiza. Esto permite recalcular
+                                 # rápidamente el promedio y la varianza.
+
+  sumaMuestrasCuad ............. # Si la bandera marcaCalcParametros está True,
+                                 # esta variable (la suma de todas las muestras al
+                                 # cuadrado) también se actualiza. Esto permite
+                                 # recalcular rápidamente la varianza.
+
+  promedio ..................... # Promedio de todas las muestras. Si la bandera
+                                 # marcCalcParametros vale True, el promedio se
+                                 # actualiza cada vez que se cargan nuevas muestras.
+
+  varianza ..................... # Varianza de las muestras. Si la bandera
+                                 # marcCalcParametros vale True, la varianza se
+                                 # actualiza cada vez que se cargan nuevas muestras.
+
+  maximo ....................... # Máximo de todas las muestras. Si la bandera
+                                 # marcCalcParametros vale True, maximo se
+                                 # actualiza cada vez que se cargan nuevas muestras.
+
+  minimo ....................... # Mínimo de todas las muestras. Si la bandera
+                                 # marcCalcParametros vale True, minimo se
+                                 # actualiza cada vez que se cargan nuevas muestras.
+
+  frecNyquist                    # ¿Hay algún algoritmo para actualizar rápidamente
+                                 # la frecuencia de Nyquist?
+  =================================================================================                  
+  Las siguientes propiedades se repiten un número de veces igual a la dimensión de
+  la señal. Es decir se trata de un arreglo de registros (PASCAL) o estructuras
+  (MATLAB). Usando la terminología de la numpy de Python, decimos que estas
+  variables se repiten tantas veces como ejes tiene el arreglo MUESTRAS.
+  O que tenemos un arreglo de estructuras de longitud MUESTRAS.ndim
+  
+  nombrevar .................... # Denominación de la magnitud física
+                                 # correspondiente al eje: "Altura", "Latitud",etc.
+
+  etiquetavar .................. # Una información adicional sobre el eje, en forma
+                                 # de breve comentario.
+        
+  frecMuestreo ................. # Intervalo o frecuencia de muestreo a lo largo de
+                                 # ese eje.
+
+  numMuestras .................. # Número de puntos de muestreo a lo largo del eje.
+                                 # Probablemente esta propiedad sea eliminada en la
+                                 # versión Python de esta clase, ya que si MUESTRAS
+                                 # es un arreglo creado con el paquete numpy,
+                                 # entonces la tupla MUESTRAS.shape proporciona esta
+                                 # información para cada eje.
+
+} //FIN PROPIEDADES de la clase segnales
+
+METODOS de la clase segnales
+{
+  cargarMuestras ............... # Cargar con valores (muestras) el arreglo
+                                 # MUESTRAS. El método puede hacer la carga inicial
+                                 # o puede agregar muestras a un arreglo MUESTRAS
+                                 # ya inicializado.
+
+  borrarMuestras ............... # Borra valores contenidos en el arreglo MUESTRAS
+                                 # sin afectar las otras propiedades del objeto.
+                                 # Como caso particular puede borrar todos los
+                                 # valores de MUESTRAS.
+
+  copiarMuestras ..............  # Copia valores contenidos en el arreglo Muestras.
+                                 # Como caso particular puede copiar el arreglo
+                                 # MUESTRAS completo.
+
+  copiarSegnal ................. # Para sacar una copia del objeto segnal, y no
+                                 # simplemente copiar la referencia o las muestras.
+
+  iniSegnal .................... # Inicializa el objeto segnal (es un constructor).
+                                 # Usa los siguientes argumentos:
+  #
+  # (MUESTRAS, dim=valor, max=valor, min=valor, hayNaNs=True/False, numMuestras=valor)
+  #
+                                 # El parámetro posicional MUESTRAS (array numpy) es
+                                 # el único argumento obligatorio. Los argumentos
+                                 # keyword restantes son opcionales e indican
+                                 # validaciones a realizar.
+                                 # 
+                                 # Si MUESTRAS.ndim es distinto de dim=valor entonces
+                                 # iniSegnal retorna -1.
+                                 #
+                                 # Si el máximo valor de MUESTRAS sobrepasa max=valor
+                                 # entonces iniSegnal retorna -2.
+                                 #
+                                 # Si el mínimo valor de MUESTRAS es inferior a
+                                 # min=valor entonces iniSegnal retorna -3.
+                                 #
+                                 # hayNaNs tiene False como valor default. Si se le
+                                 # proporciona a iniSegnal hayNaNs=True, entonces
+                                 # devuelve -4 si encuentra valores NaN en MUESTRAS.
+                                 #
+                                 # Si MUESTRAS.size es distinto de numMuestras=valor
+                                 # entonces iniSegnal retornará -5.
+                                 #
+                                 # Si ninguna de las condiciones de error antes
+                                 # descritas se presenta entonces iniSegnal
+                                 # retorna 0.
+
+  iniOperarSegnales ............ # Este método combina 2 o más señales y carga
+                                 # los resultados (MUESTRAS, promedio, varianza,
+                                 # maximo, minimo, etc) en el objeto. Usa los
+                                 # siguientes argumentos:
+                                 #
+                                 # (operador, segnal1, segnal2, ... , segnaln)
+                                 # 
+                                 # Donde el operador es una fórmula, expresión
+                                 # o función que indica la manera combinar las
+                                 # n señales.  
+ 
+  autoOperarSegnales ........... # Este método es una versión limitada de
+                                 # iniOperarSegnales. Usa los siguientes argumentos:
+                                 #
+                                 # (Operador, segnal)
+                                 # 
+                                 # autoOperarSegnales combina solo dos señales, la
+                                 # señal pasada como argumento y la señal almacenada
+                                 # en el objeto.
+
+  convolucion .................. # Este método convoluciona 2 señales y carga
+                                 # los resultados (MUESTRAS, promedio, varianza,
+                                 # maximo, minimo, etc) en el objeto. Usa los
+                                 # siguientes argumentos:
+                                 #
+                                 # (OperadorDeConvolucion, segnal1, segnal2)
+
+  autoconvolucion                # Este método es una variante del anterior.
+                                 # Usa los siguientes argumentos:
+                                 #
+                                 # (OperadorDeConvolucion, segnal)
+                                 # 
+                                 # El método convoluciona la señal pasada como
+                                 # argumento y la señal almacenada en el objeto,
+                                 # y carga los resultados (MUESTRAS, promedio,
+                                 # varianza, maximo, minimo, etc) en el objeto. 
+	
+} //FIN METODOS de la clase segnales
+
+
+
+CLASE bitácora:
+PROPIEDADES de la calse bitácora
+{ 
+  rutaGuardado...................# Indica la ruta (path) en donde guardara 
+				 # el archivo log
+ 
+  Nivel..........................# Suminitra el tipo error puede ser DEBUG,INFO,ERROR,
+				 # WARNING,CRITICAL,NOTSET
+
+  FechaHoraInicio................# Variable interna de la bitacora, no puede ser 
+				 # suministrado por el usuario asigna la fecha y
+				 # hora viene dado por la variable asctime que esta 
+				 # formada por , datefmt='%m/%d/%Y %I:%M:%S %p'
+
+  condiciondeborrado(tiempo).....# Borra el archivo log, en un tiempo determinado
+				 # por el usuario del sistema
+
+  NumeroElementos................#
+  NumeroElementos(tipo)..........# y la linea de volcado hacia un archivo anexo
+
+  Usuario1.......................#Esta variable es tomada del sistema operativo, 
+				 #el usuario va hacer la sesion actual
+
+  Host...........................#Equipo informatico que esta suministrando el log
+
+  Usuario2.......................#Nombre de usuario suministrado por un inicio de
+				 #sistema.
+
+  Mensaje........................# informacion de evento ocurrido dato suministrado
+				 # por el programador la  estructura mensaje:
+				 # "Date:Time:host:usuario:nivel(e,w,a,r):numerror:
+				 # objetoqueenvia:rutineerror:mensaje"
+		
+} //FIN PROPIEDADES de la clase bitácora
+
+METODOS de la clase bitácora
+{
+  construirmensaje...............#
+  guardaResumen..................#
+  presentaVolcado................#
+  BorrarBitacora.................#
+
+} //FIN METODOS de la clase bitácora
+
+
+
+CLASE segy:
+PROPIEDADES de la clase segy
+{
+  nikki se encarga 
+
+} //FIN PROPIEDADES de la clase segy
+
+METODOS de la clase segy
+{
+
+} //FIN METODOS de la clase segy
+
+
+
+CLASE imagen:
+PROPIEDADES de la clase imagen 
+{
+  IDimagen
+  Arreglo(DATA)
+  colormap(GRAY)
+  Etiqueta
+  largo
+  ancho
+  tamagno
+  promd
+  max
+  min
+  zoomactual
+  nivelcontraste
+  formatoorigen(string)(numeral=5)
+  banderadeguardado
+
+} //FIN PROPIEDADES de la clase imagen
+
+METODOS de la clase imagen
+{
+  zum
+  recortar
+  normalizadora
+  tranformaraGris
+  contrastar
+  backup
+  pan
+
+} //FIN METODOS de la clase imagen
+
+
+
+CLASE delimitador:
+PROPIEDADES de la clase delimitador
+{
+
+} //FIN PROPIEDADES de la clase delimitador
+
+METODOS de la clase delimitador
+{
+
+} //FIN METODOS de la clase delimitador
+
+
+
+CLASE imlinea:
+PROPIEDADES de la clase imlinea
+{
+
+} //FIN PROPIEDADES de la clase imlinea
+
+METODOS de la clase imlinea
+{
+
+} //FIN METODOS de la clase imlinea
+
+
+
+CLASE imperfil:
+PROPIEDADES de la clase imperfil
+{
+
+} //FIN PROPIEDADES de la clase imperfil
+
+METODOS de la clase imperfil
+{
+
+} //FIN METODOS de la clase imperfil
+
+
+
+CLASE ayuda:
+PROPIEDADES de la clase ayuda
+{
+
+} //FIN PROPIEDADES de la clase ayuda
+
+METODOS de la clase ayuda
+{
+
+} //FIN METODOS de la clase ayuda
+
+
+
+CLASE datocomplejo:
+PROPIEDADES de la clase datocomplejo
+{
+
+} //FIN PROPIEDADES de la clase datocomplejo
+
+METODOS de la clase datocomplejo
+{
+
+} //FIN METODOS de la clase datocomplejo
+
+¿¿ grilla.cdp[235].x=16
+
+grilla.EditCDP(235,x=16, y=34) ??
